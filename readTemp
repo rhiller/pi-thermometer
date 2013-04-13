@@ -1,0 +1,101 @@
+#!/usr/bin/python
+
+# make sure that the following 2 lines are listed in /etc/modules:
+# w1_gpio
+# w1_therm
+
+import time, sys, os
+import subprocess
+
+deviceBase = '/sys/bus/w1/devices/'
+
+deviceSuffix = '/w1_slave'
+
+# can preload this with nice names, indexed by deviceId
+#deviceLabels = {'28-000004663344': 'TempFloor', '28-000004665b96': 'TempCeiling'}
+deviceLabels = {}
+
+def CToF(t):
+	return 9.0*t/5.0 + 32.0
+
+def writeCosm(results):
+	cosmString = """{
+  "version":"1.0.0",
+  "datastreams":[
+"""
+	for r in results:
+		cosmString += '    {"id":"%s", "current_value":"%.1f", "at":"%s"},\n' % (r[0], r[1], r[2])
+	cosmString = cosmString[:-2] # nuke extraneous ,
+	cosmString += "\n  ]\n}\n"
+	cosm = open("cosm.json", "w")
+	cosm.write(cosmString)
+	cosm.close()
+
+
+def sendToCosm():
+	os.system('sendToCosm.sh')
+
+def readTemperature(device):
+	devicePath = deviceBase + device + deviceSuffix
+	f = open(devicePath, "r")
+	linez = f.readlines()
+	f.close()
+	if len(linez) != 2:
+		sys.stderr.write("# %s %s: len(linez) %d\n" % (time.ctime(), device[-4:], len(linez)))
+		return None
+	line = linez[0].strip()
+	crcIdx = line.find('crc')
+	if crcIdx < 0:
+		sys.stderr.write("# %s %s: no crc\n" % (time.ctime(), device[-4:]))
+		return None
+
+	if line[crcIdx:].find('YES') < 0:
+		sys.stderr.write("# %s %s: missing YES, got %s\n" % (time.ctime(), device[-4:], line[crcIdx:]))
+		return None
+
+	line = linez[1].strip()
+	temperatureIdx = line.find('t=')
+	if temperatureIdx < 0:
+		sys.stderr.write("# %s %s: missing t=, got %s\n" % (time.ctime(), device[-4:], line))
+		return None
+
+	temperature = int(line[temperatureIdx+2:])/1000.0
+	return temperature
+
+def doit(interval):
+	deviceList = []
+	for f in os.listdir(deviceBase):
+		if f.startswith('28'):
+			deviceList.append(f)
+			if not f in deviceLabels:
+				# make a default label
+				deviceLabels[f] = 'Temp_' + f[-4:]
+				#print "added", f, deviceLabels[f]
+	if not len(deviceList):
+		sys.stderr.write("%s no devices found, goodbye\n" % (time.ctime(start)))
+		sys.exit(1)
+	running = 0
+	while True:
+		start = time.time()
+		timestamp = time.strftime("%Y-%m-%dT%H:%M:%S%z")
+		if running:
+			results = []
+			for device in deviceList:
+				temp = readTemperature(device)
+				if temp == None:
+					continue
+				label = deviceLabels[device]
+				results.append((label, CToF(temp), timestamp))
+				sys.stderr.write("%s %s: temperature %.3f C, %.3f F\n" % (time.ctime(start), label, temp, CToF(temp)))
+			writeCosm(results)
+			sendToCosm()
+		running = 1
+		now = time.time()
+		napTime = 10.0 - now % interval
+		time.sleep(napTime)
+
+def main():
+	interval = 10.0
+	doit(interval)
+
+main()
