@@ -1,0 +1,26 @@
+#! /bin/sh
+# /etc/init.d/thermometer
+#
+
+# Some things that run always
+touch /var/lock/thermometer
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting script thermometer "
+    echo "Could do more here"
+    /home/pi/thermometer/thermometer
+    ;;
+  stop)
+    echo "Stopping script thermometer"
+    echo "Could do more here"
+    ;;
+  *)
+    echo "Usage: /etc/init.d/thermometer {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
+

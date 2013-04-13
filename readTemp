@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 # make sure that the following 2 lines are listed in /etc/modules:
+# if not, add them (make sure you have the kernel modules)
 # w1_gpio
 # w1_therm
 
@@ -33,7 +34,7 @@ def writeCosm(results):
 
 
 def sendToCosm():
-	os.system('sendToCosm.sh')
+	os.system('sendToCosm')
 
 def readTemperature(device):
 	devicePath = deviceBase + device + deviceSuffix

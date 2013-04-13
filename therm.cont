@@ -1,0 +1,11 @@
+#!/bin/bash
+
+cd /home/pi/thermometer
+
+# in case the temperature reading program exits, restart it after a short delay
+while true
+do
+	./readTemp
+	echo "restarting because it exited"
+	sleep 10
+done
