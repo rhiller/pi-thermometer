@@ -9,12 +9,10 @@ touch /var/lock/thermometer
 case "$1" in
   start)
     echo "Starting script thermometer "
-    echo "Could do more here"
     /home/pi/thermometer/thermometer
     ;;
   stop)
     echo "Stopping script thermometer"
-    echo "Could do more here"
     ;;
   *)
     echo "Usage: /etc/init.d/thermometer {start|stop}"
