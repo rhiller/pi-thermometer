@@ -28,3 +28,28 @@ Not shown in that diagram is that multiple DS18B20 can be connected in parallel.
 I'm currently using two to measure the inlet and outlet temperatures on a heat pump.
 
 Another resource is: http://blog.turningdigital.com/2012/09/raspberry-pi-ds18b20-temperature-sensor-rrdtool/
+
+
+<pre>
+                         DS18B20                      Phone cord     phone jack
+                       +---------+                    ----------     ----------
+                       |         |   Pin 1 - Gnd      Black           5
+                       |         |   Pin 2 - DQ       Yellow          2
+                       | 1  2  3 |   Pin 3 - Vdd      Red             4
+                       +---------+          (unused)  Green
+                         |  |  |
+                         |  |  |
+                        /   |   \
+                       /    |    \
+                   Gnd|   DQ|  Vdd|      3v3
+                      |     |     |       |
+                     Gnd    |     +-------+
+                            |             |
+                            |              \
+                            |              /
+                            |              \ 4.7k ohm
+                            |              /
+                            |              |
+							+--------------+-------------------> pin #4 (GPIO 4)
+
+</pre>
