@@ -22,7 +22,11 @@ if you decide to remove the script from the startup sequence run:
 
 
 The temperature sensors are wired in parallel with a single 4.7K pullup resistor
-between data and 3v3.  See http://www.cl.cam.ac.uk/freshers/raspberrypi/tutorials/temperature/ Step Two as one example.  The data pin of the sensor connects to GPIO4 on the Raspberry Pi.
+between data and 3v3.  See http://www.cl.cam.ac.uk/freshers/raspberrypi/tutorials/temperature/ Step Two as one example.  The data pin of the sensor connects to GPIO4 on the Raspberry Pi.  That corresponds to pin 8 of the P1 connector.
+
+The correspondence between the P1
+connector and the Broadcom GPIO values can be found in a pinout diagram such
+as http://www.raspberrypi-spy.co.uk/2012/06/simple-guide-to-the-rpi-gpio-header-and-pins/
 
 Not shown in that diagram is that multiple DS18B20 can be connected in parallel.
 I'm currently using two to measure the inlet and outlet temperatures on a heat pump.
@@ -50,6 +54,6 @@ Another resource is: http://blog.turningdigital.com/2012/09/raspberry-pi-ds18b20
                             |              \ 4.7k ohm
                             |              /
                             |              |
-							+--------------+-------------------> pin #4 (GPIO 4)
+							+--------------+-------------------> P1.8 (GPIO4)
 
 </pre>
