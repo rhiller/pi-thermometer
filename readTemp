@@ -34,7 +34,7 @@ def writeCosm(results):
 
 
 def sendToCosm():
-	os.system('sendToCosm')
+	os.system('./sendToCosm')
 
 def readTemperature(device):
 	devicePath = deviceBase + device + deviceSuffix
