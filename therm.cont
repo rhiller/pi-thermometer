@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/pi/thermometer
+cd /home/pi/pi-thermometer
 
 # in case the temperature reading program exits, restart it after a short delay
 while true

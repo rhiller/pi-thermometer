@@ -4,7 +4,7 @@ All the interesting stuff is in the readTemp python script.  The other files
 are just little scripts used to start things up or keep them running.
 
 On the Raspberry Pi I put all the files (except for init.d/thermometer) into
-/home/pi/thermometer.  If you decide to move things around, you will need to fix
+/home/pi/pi-thermometer.  If you decide to move things around, you will need to fix
 up the paths in the script files
 
 The init script is based on: http://www.debian-administration.org/articles/28
