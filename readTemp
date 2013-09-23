@@ -73,6 +73,7 @@ def doit(interval):
 				deviceLabels[f] = 'Temp_' + f[-4:]
 				#print "added", f, deviceLabels[f]
 	if not len(deviceList):
+		start = time.time()
 		sys.stderr.write("%s no devices found, goodbye\n" % (time.ctime(start)))
 		sys.exit(1)
 	running = 0
