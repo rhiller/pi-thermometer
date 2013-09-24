@@ -3,22 +3,28 @@ Raspberry Pi code to read DS18B20 Digital Temperature Sensors, and post to cosm
 All the interesting stuff is in the readTemp python script.  The other files
 are just little scripts used to start things up or keep them running.
 
-On the Raspberry Pi I put all the files (except for init.d/thermometer) into
-/home/pi/pi-thermometer.  If you decide to move things around, you will need to fix
-up the paths in the script files
+On the Raspberry Pi, I copied this entire tree into /home/pi/pi-thermometer.  
+
+Then run (as root):  
+cp init.d/thermometer /etc/init.d/  
+cp cron.d/checkup /etc/cron.d/  
+
+If you decide to move things around, you will need to fix up the paths in the script files.
 
 The init script is based on: http://www.debian-administration.org/articles/28
 
 init.d/thermometer:  init script to be placed into the /etc/init.d/ directory
-make sure that it is executable and owned by root:
-  -rwxr-xr-x 1 root root 470 Feb  1 12:09 thermometer
+make sure that it is executable and owned by root:  
+  -rwxr-xr-x 1 root root 470 Feb  1 12:09 thermometer  
 
-Then run (as root):
-  update-rc.d thermometer defaults
-to create the needed symlinks so that this will all start on boot
+Then run (as root):  
+  update-rc.d thermometer defaults  
+to create the needed symlinks so that this will all start on boot  
 
-if you decide to remove the script from the startup sequence run:
-  update-rc.d -f thermometer remove
+if you decide to remove the script from the startup sequence run:  
+  update-rc.d -f thermometer remove  
+
+The checkup script pings the default gateway every 10 minutes and reboots the Pi if it doesn't get a response.  This is to recover from issues with the USB WiFi adapter.
 
 
 The temperature sensors are wired in parallel with a single 4.7K pullup resistor
