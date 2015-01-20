@@ -3,6 +3,11 @@ Raspberry Pi code to read DS18B20 Digital Temperature Sensors, and post to cosm
 All the interesting stuff is in the readTemp python script.  The other files
 are just little scripts used to start things up or keep them running.
 
+Make sure that the one-wire drivers are loaded.  The following two lines need to be in /etc/modules:
+w1_gpio
+w1_therm
+
+
 On the Raspberry Pi, I copied this entire tree into /home/pi/pi-thermometer.  
 
 Then run (as root):  
@@ -24,7 +29,7 @@ to create the needed symlinks so that this will all start on boot
 if you decide to remove the script from the startup sequence run:  
   update-rc.d -f thermometer remove  
 
-The checkup script pings the default gateway every 10 minutes and reboots the Pi if it doesn't get a response.  This is to recover from issues with the USB WiFi adapter.
+The checkup script pings the default gateway every 10 minutes and reboots the Pi if it doesn't get a response.  This is to recover from issues with the USB WiFi adapter.  To stop the check, remove it from /etc/cron.d
 
 
 The temperature sensors are wired in parallel with a single 4.7K pullup resistor
