@@ -4,8 +4,10 @@ All the interesting stuff is in the readTemp python script.  The other files
 are just little scripts used to start things up or keep them running.
 
 Make sure that the one-wire drivers are loaded.  The following two lines need to be in /etc/modules:
+<pre>
 w1_gpio
 w1_therm
+<pre>
 
 
 On the Raspberry Pi, I copied this entire tree into /home/pi/pi-thermometer.  
