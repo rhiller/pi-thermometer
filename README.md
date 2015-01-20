@@ -7,7 +7,7 @@ Make sure that the one-wire drivers are loaded.  The following two lines need to
 <pre>
 w1_gpio
 w1_therm
-<pre>
+</pre>
 
 
 On the Raspberry Pi, I copied this entire tree into /home/pi/pi-thermometer.  
